@@ -1,13 +1,11 @@
 <?php
 
-namespace licon\licon\Http\Middleware;
+namespace licon\lis\Http\Middleware;
 
 use Closure;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use licon\licon\Services\LisSer;
-use LaravelReady\LicenseConnector\Support\DomainSupport;
+use licon\lis\Services\LisSer;
 
 class LisMid
 {

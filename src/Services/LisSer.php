@@ -1,16 +1,14 @@
 <?php
 
-namespace licon\licon\Services;
+namespace licon\lis\Services;
 
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use licon\licon\Traits\CacheKeys;
-use LaravelReady\LicenseConnector\Exceptions\AuthException;
+use licon\lis\Traits\CacheKeys;
+
 
 class LisSer
 {

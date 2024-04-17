@@ -1,6 +1,6 @@
 <?php
 
-namespace licon\licon\Traits;
+namespace licon\lis\Traits;
 
 use Illuminate\Support\Facades\Route;
 
