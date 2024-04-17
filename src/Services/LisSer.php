@@ -1,13 +1,13 @@
 <?php
 
-namespace licon\lis\Services;
+namespace Licon\Lis\Services;
 
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use licon\lis\Traits\CacheKeys;
+use Licon\Lis\Traits\CacheKeys;
 
 
 class LisSer

@@ -1,11 +1,11 @@
 <?php
 
-namespace licon\lis\Http\Middleware;
+namespace Licon\Lis\Http\Middleware;
 
 use Closure;
 
 use Illuminate\Http\Request;
-use licon\lis\Services\LisSer;
+use Licon\Lis\Services\LisSer;
 
 class LisMid
 {
