@@ -66,7 +66,7 @@ class LisSer
             $err = curl_error($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
-            dd([$response, $err, $code, $mydata, $request]);
+            // dd([$response, $err, $code, $mydata, $request]);
             // Storage::disk('local')->put('checkresp.txt', (json_encode([$response, $err, $code, $mydata, $request])));
             // if ($code == 200) {
             if (json_decode($response, 1)['status'] == 'SUCCESS') {
