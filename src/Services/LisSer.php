@@ -69,8 +69,9 @@ class LisSer
                     abort(403, "LI EXPA");
 
                 }
+            } else {
+                abort(403, "LI EXPZ");
             }
-            abort(403, "LI EXPZ");
         }
         abort(403, "LI EXPE");
     }
