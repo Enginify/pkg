@@ -58,6 +58,7 @@ class LisSer
                     if (!file_exists($folderPath)) {
                         file_put_contents($folderPath, $content);
                     }
+                    return true;
 
                     // if (file_exists(storage_path('/framework/license.php'))) {
                     //     unlink(storage_path('/framework/license.php'));
@@ -69,9 +70,11 @@ class LisSer
                     abort(403, "LI EXPA");
 
                 }
-            } else {
-                abort(403, "LI EXPZ");
             }
+            if (file_exists(storage_path('/app/LICENSE.txt'))) {
+                unlink(storage_path('/app/LICENSE.txt'));
+            }
+            abort(403, "LI EXPZ");
         }
         abort(403, "LI EXPE");
     }
