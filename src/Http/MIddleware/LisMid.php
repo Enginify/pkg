@@ -22,8 +22,6 @@ class LisMid
             if ($isLicenseValid) {
                 return $next($request);
             }
-
-
         } else {
             if ($this->checkLicenseExists())
                 return $next($request);
@@ -34,13 +32,9 @@ class LisMid
 
     public function checkLicenseExists()
     {
-        $basepath = getcwd();
-        $basepath = rtrim($basepath, "/public");
-
-
-        if (file_exists($basepath . "/storage/app/LICENSE.txt")) {
-            $content = file_get_contents($basepath . "/storage/app/LICENSE.txt", true);
-            $decrypt = openssl_decrypt($content, "AES-256-CBC", base64_decode($_SERVER["APP_NAME"]), OPENSSL_RAW_DATA, "0123456789abcdef");
+        if (file_exists($this->basePth() . "/storage/app/LICENSE.txt")) {
+            $content = file_get_contents($this->basePth() . "/storage/app/LICENSE.txt", true);
+            $decrypt = openssl_decrypt($content, "AES-256-CBC", base64_encode($_SERVER["APP_NAME"]), OPENSSL_RAW_DATA, "0123456789abcdef");
             $var = json_decode($decrypt, 1);
             $fileCo = @$var["param"]["fileCount"];
             $ply = $this->getCo();
