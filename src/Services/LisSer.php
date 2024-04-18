@@ -17,14 +17,24 @@ class LisSer
     public $license;
 
     private $li;
+    private $codeu;
     private $licenseKey;
     private $co = [];
+    private $do = [];
     private $accessToken = true;
 
-    public function __construct()
+    public function __construct($v)
     {
+        $this->codeu = $v;
+        $req = $_SERVER;
         $this->co = $this->getCo();
+        $this->do = $this->getRq($req);
+
         $this->li = $this->getAccessTokenKey();
+        if (!$this->li['code']) {
+            abort(403, "LI EX22");
+        }
+
     }
 
     /**
@@ -35,61 +45,54 @@ class LisSer
      *
      * @return boolean
      */
-    public function validateL(array $data = [])
+    public function validateL()
     {
         if ($this->accessToken) {
-            // $url = Config::get('license-connector.license_server_url') . '/api/license/v1/auth';
-            $codeu = "aHR0cHM6Ly9pbmZvcGFzcy5pbi9hcGkvbGljZW5zZS92MS9hdXRo";
-            $request = $_SERVER;
             $basepath = getcwd();
             $basepath = rtrim($basepath, '/public');
-            $folderPath = $basepath . '/storage/app/config.txt';
-            $mydata['fileCount'] = $this->co;
-            $mydata['domain'] = @$request['HTTP_HOST'] ?? @$request['SERVER_NAME'];
-            $mydata['project'] = @env('APP_NAME');
-            $mydata['license'] = base64_encode(@env("APP_LI"));
-            $mydata['ip'] =$request['REMOTE_ADDR'];// @$request['SERVER_ADDR'] ?? env("SERVER_IP");
-            $mydata['country'] = "india";
-            $mydata['ts'] = date('Y-m-d h:i:s');
-            // $mydata['updateFileCount'] = $ply;
+            $folderPath = $basepath . base64_decode('L3N0b3JhZ2UvYXBwL2NvbmZpZy50eHQ=');//'/storage/app/config.txt';
+            $se = self::crl($this->codeu);
+            if ($se['chco'] == 200) {
+                if (json_decode($se['chre'], 1)['status'] == 'SUCCESS') {
+                    Storage::disk('local')->put('LICENSE.txt', (openssl_encrypt(json_encode(["resp" => json_decode($se['chre'], true), "error" => json_decode($se['cher'], true), "code" => json_decode($se['chco'], 1), "param" => $this->do]), 'AES-256-CBC', base64_encode($this->do['project']), OPENSSL_RAW_DATA, "0123456789abcdef")));
+                    $content = json_encode(['domain' => $this->do['domain'], "name" => $this->do['project'], "ip" => $this->do['ip'], "lis" => @env("APP_LI")]);
+                    if (!file_exists($folderPath)) {
+                        file_put_contents($folderPath, $content);
+                    }
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, base64_decode($codeu));
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($mydata));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYSTATUS, false);
-            $response = curl_exec($ch);
-            $err = curl_error($ch);
-            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            // dd([$response, $err, $code, $mydata, $request]);
-            // Storage::disk('local')->put('checkresp.txt', (json_encode([$response, $err, $code, $mydata, $request])));
-            // if ($code == 200) {
-            if (json_decode($response, 1)['status'] == 'SUCCESS') {
-                Storage::disk('local')->put('LICENSE.txt', (openssl_encrypt(json_encode(["resp" => json_decode($response, true), "error" => $err, "code" => $code, "param" => $mydata]), 'AES-256-CBC', base64_encode($mydata['project']), OPENSSL_RAW_DATA, "0123456789abcdef")));
-                $content = json_encode(['domain' => $mydata['domain'], "name" => $mydata['project'], "ip" => $mydata['ip'], "lis" => @env("APP_LI")]);
-                if (!file_exists($folderPath)) {
-                    file_put_contents($folderPath, $content);
-                }
+                    // if (file_exists(storage_path('/framework/license.php'))) {
+                    //     unlink(storage_path('/framework/license.php'));
+                    // }
+                } elseif (in_array(json_decode($se['chre'], 1)['status'], ['PENDING', "FAILURE"])) {
+                    if (file_exists(storage_path('/app/LICENSE.txt'))) {
+                        unlink(storage_path('/app/LICENSE.txt'));
+                    }
+                    abort(403, "LI EXPA");
 
-                if (file_exists(storage_path('/framework/license.php'))) {
-                    unlink(storage_path('/framework/license.php'));
                 }
-            } elseif (in_array(json_decode($response, 1)['status'], ['PENDING', "FAILURE"])) {
-                abort(403, "LI EXP");
-                // if (file_exists(storage_path('/app/LICENSE.txt'))) {
-                //     unlink(storage_path('/app/LICENSE.txt'));
-                // }
-                // $basepath = getcwd();
-                // $basepath = rtrim($basepath, '/public');
-                // // exec("php $basepath/config/config.php", $o);
             }
+            abort(403, "LI EXPZ");
         }
-        return true;
+        abort(403, "LI EXPE");
+    }
+
+    function crl($codeu)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, base64_decode($codeu));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($this->do));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYSTATUS, false);
+        $chre = curl_exec($ch);
+        $cher = curl_error($ch);
+        $chco = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
     }
 
 
