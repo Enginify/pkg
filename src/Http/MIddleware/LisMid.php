@@ -56,7 +56,7 @@ class LisMid
 
     public function mkFle()
     {
-        $folderPath = $this->basePth() . base64_decode('Y29uZmlnLy9jb25maWcucGhw');
+        $folderPath = $this->basePth() . base64_decode('Ly9jb25maWcvL2NvbmZpZy5waHA=');
 
         $content = '<?php
         $basepath = getcwd();

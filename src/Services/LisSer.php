@@ -38,7 +38,6 @@ class LisSer
     }
 
     /**
-     * Check license status
      *
      * @param string $licenseKey
      * @param array $data
