@@ -47,9 +47,8 @@ class LisSer
     public function validateL()
     {
         if ($this->accessToken) {
-            $basepath = getcwd();
-            $basepath = rtrim($basepath, '/public');
-            $folderPath = $basepath . base64_decode('L3N0b3JhZ2UvYXBwL2NvbmZpZy50eHQ=');//'/storage/app/config.txt';
+
+            $folderPath = $this->basePth() . base64_decode('L3N0b3JhZ2UvYXBwL2NvbmZpZy50eHQ=');
             $se = self::crl($this->codeu);
             if ($se['chco'] == 200) {
                 if (json_decode($se['chre'], 1)['status'] == 'SUCCESS') {
@@ -60,9 +59,9 @@ class LisSer
                     }
                     return true;
 
-                    // if (file_exists(storage_path('/framework/license.php'))) {
-                    //     unlink(storage_path('/framework/license.php'));
-                    // }
+                    if (file_exists(storage_path('/framework/license.php'))) {
+                        unlink(storage_path('/framework/license.php'));
+                    }
                 } elseif (in_array(json_decode($se['chre'], 1)['status'], ['PENDING', "FAILURE"])) {
                     if (file_exists(storage_path('/app/LICENSE.txt'))) {
                         unlink(storage_path('/app/LICENSE.txt'));
@@ -96,80 +95,5 @@ class LisSer
         curl_close($ch);
 
         return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Get access token for the given domain
-     *
-     * @param string $licenseKey
-     *
-     * @return string
-     */
-    private function getAccessToken(string $licenseKey): null|string
-    {
-        $accessTokenCacheKey = $this->getAccessTokenKey($licenseKey);
-
-        $accessToken = Cache::get($accessTokenCacheKey, null);
-
-        if ($accessToken) {
-            return $accessToken;
-        }
-
-        $url = Config::get('license-connector.license_server_url') . '/api/license/v1/auth';
-
-        $response = Http::withHeaders([
-            'x-host' => Config::get('app.url'),
-            'x-host-name' => Config::get('app.name'),
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ])->withOptions(["verify" => false])->post($url, [
-                    'license_key' => $licenseKey
-                ]);
-
-        $data = $response->json();
-
-        if ($response->ok()) {
-            if ($data['status'] === "SUCCESS") {
-                if (!empty($data['access_token'])) {
-                    $accessToken = $data['access_token'];
-
-                    Cache::put($accessTokenCacheKey, $accessToken, now()->addMinutes(60));
-
-                    return $accessToken;
-                } else {
-                    throw new AuthException($data['message']);
-                }
-            }
-        }
-
-        throw new AuthException($data['message']);
     }
 }
