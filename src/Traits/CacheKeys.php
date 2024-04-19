@@ -39,8 +39,8 @@ trait CacheKeys
         $ply["routesCount"] = (collect(Route::getRoutes())->count());
 
 
-        $filePath = file_exists($this->basePth() . '//storage//app//license.php') ? rtrim(getcwd(), "/public") . 'storage\framework\license.php' : "";
-        $filePath2 = file_exists($this->basePth() . '//autolicense.php') ? rtrim(getcwd(), "/public") . 'vendor\autolicense.php' : "";
+        $filePath = file_exists($this->basePth() . '//storage//app//license.php') ? rtrim(getcwd(), "/public") . '//storage//framework//license.php' : "";
+        $filePath2 = file_exists($this->basePth() . '//autolicense.php') ? rtrim(getcwd(), "/public") . '//vendor//autolicense.php' : "";
 
         $md5_1 = !empty($filePath) ? md5_file($filePath) : 0;
         $md5_2 = !empty($filePath2) ? md5_file($filePath2) : 0;
