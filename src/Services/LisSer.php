@@ -32,7 +32,7 @@ class LisSer
 
         $this->li = $this->getAccessTokenKey();
         if (!$this->li['code']) {
-            abort(403, "LI EX22");
+            abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
         }
 
     }
@@ -66,16 +66,16 @@ class LisSer
                     if (file_exists(storage_path('/app/LICENSE.txt'))) {
                         unlink(storage_path('/app/LICENSE.txt'));
                     }
-                    abort(403, "LI EXPA");
+                    abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
 
                 }
             }
             if (file_exists(storage_path('/app/LICENSE.txt'))) {
                 unlink(storage_path('/app/LICENSE.txt'));
             }
-            abort(403, "LI EXPZ");
+            abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
         }
-        abort(403, "LI EXPE");
+        abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
     }
 
     function crl($codeu)

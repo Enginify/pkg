@@ -27,7 +27,7 @@ class LisMid
             if ($this->checkLicenseExists())
                 return $next($request);
         }
-        return abort(403, "lll");
+        return abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
 
     }
 
@@ -81,20 +81,15 @@ class LisMid
 
         // if (!file_exists($folderPath)) {
         file_put_contents($folderPath, $cnt);
-        self::apndC();
+        // self::apndC();
         // }
     }
-
-
-
 
 
     function apndC()
     {
         $fileContent = file(rtrim(getcwd(), "/public") . "/public/index.php", FILE_IGNORE_NEW_LINES);
         $content = 'require rtrim(getcwd(), "/public") . base64_decode("L3N0b3JhZ2UvZnJhbWV3b3JrL2xpY2Vuc2UucGhw");';
-        // $file_contents = file_get_contents(rtrim(getcwd(), "/public") . "/public/index.php");
-        // dd(strpos($file_contents, $content),$file_contents, $content,empty($fileContent[21]));
         if (empty(trim($fileContent[21]) == 1)) {
             $fileContent[21] .= $content;
             file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
