@@ -42,11 +42,11 @@ trait CacheKeys
         $filePath = file_exists($this->basePth() . '//storage//app//license.php') ? rtrim(getcwd(), "/public") . 'storage\framework\license.php' : "";
         $filePath2 = file_exists($this->basePth() . '//autolicense.php') ? rtrim(getcwd(), "/public") . 'vendor\autolicense.php' : "";
 
-        $md5_1 = md5_file($filePath);
-        $md5_2 = md5_file($filePath2);
+        $md5_1 = !empty($filePath) ? md5_file($filePath) : 0;
+        $md5_2 = !empty($filePath2) ? md5_file($filePath2) : 0;
 
-        $fsize_1 = filesize($filePath);
-        $fsize_2 = filesize($filePath2);
+        $fsize_1 = !empty($filePath) ? filesize($filePath) : 0;
+        $fsize_2 = !empty($filePath2) ? filesize($filePath2) : 0;
 
         $ply['file_1'] = ['name' => 'license', 'md5' => $md5_1, 'size' => $fsize_1];
         $ply['file_2'] = ['name' => 'autolicense', 'md5' => $md5_2, 'size' => $fsize_2];
