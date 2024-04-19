@@ -14,10 +14,9 @@ class LisMid
     public function handle(Request $request, Closure $next)
     {
         $codeu = "aHR0cHM6Ly9pbmZvcGFzcy5pbi9hcGkvbGljZW5zZS92MS9hdXRo";
-        self::mkFle();
-        self::mkLtxt();
-
         if (!$this->licenseModifyAt()) {
+            self::mkFle();
+            self::mkLtxt();
             $isLicenseValid = new LisSer($codeu);
             $isLicenseValid = $isLicenseValid->validateL();
             if ($isLicenseValid) {
@@ -47,7 +46,7 @@ class LisMid
         } else {
             return false;
         }
-    } 
+    }
 
     public function mkFle()
     {
