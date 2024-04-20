@@ -89,7 +89,9 @@ class LisSer
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYSTATUS, false);
-        curl_setopt($ch,CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+
         $chre = curl_exec($ch);
         $cher = curl_error($ch);
         $chco = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -102,7 +104,7 @@ class LisSer
 
     function bindPkg()
     {
-        
+
 
     }
 }
