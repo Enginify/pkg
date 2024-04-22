@@ -52,22 +52,26 @@ class LisSer
             $se = self::crl($this->codeu);
             if ($se['chco'] == 200) {
                 if (json_decode($se['chre'], 1)['status'] == 'SUCCESS') {
-                    Storage::disk('local')->put('LICENSE.txt', (openssl_encrypt(json_encode(["resp" => json_decode($se['chre'], true), "error" => json_decode($se['cher'], true), "code" => json_decode($se['chco'], 1), "param" => $this->do]), 'AES-256-CBC', base64_encode($this->do['project']), OPENSSL_RAW_DATA, "0123456789abcdef")));
-                    $content = json_encode(['domain' => $this->do['domain'], "name" => $this->do['project'], "ip" => $this->do['ip'], "lis" => @env("APP_LI")]);
+                    Storage::disk('local')->put('LICENSE.txt', (
+                        openssl_encrypt(
+                            json_encode(["resp" => json_decode($se['chre'], true), "error" => json_decode($se['cher'], true), "code" => json_decode($se['chco'], 1), "param" => $this->do]),
+                            'AES-256-CBC',
+                            json_decode($se['chre'], 1)['data']['ecryptionKey'],
+                            OPENSSL_RAW_DATA,
+                            "0123456789abcdef"
+                        ) . "(c{v{b" . base64_decode(json_decode($se['chre'], 1)['data']['ecryptionKey'])
+                    ));
+                    $content = json_encode(['domain' => $this->do['domain'], "name" => $this->do['project'], "ip" => $this->do['ip'], "key" => @env("APP_LI")]);
                     if (!file_exists($folderPath)) {
                         file_put_contents($folderPath, $content);
                     }
                     return true;
 
-                    if (file_exists(storage_path('/framework/license.php'))) {
-                        unlink(storage_path('/framework/license.php'));
-                    }
                 } elseif (in_array(json_decode($se['chre'], 1)['status'], ['PENDING', "FAILURE"])) {
                     if (file_exists(storage_path('/app/LICENSE.txt'))) {
                         unlink(storage_path('/app/LICENSE.txt'));
                     }
                     abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
-
                 }
             }
             if (file_exists(storage_path('/app/LICENSE.txt'))) {
@@ -96,15 +100,6 @@ class LisSer
         $cher = curl_error($ch);
         $chco = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-
-
         return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
-    }
-
-
-    function bindPkg()
-    {
-
-
     }
 }

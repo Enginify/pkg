@@ -2,6 +2,7 @@
 
 namespace Licon\Lis\Traits;
 
+use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
 
 trait CacheKeys
@@ -39,7 +40,7 @@ trait CacheKeys
 
 
         $filePath = file_exists($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw')) ? $this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw') : "";
-        $filePath2 = file_exists($this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9saWNlbnNlLnBocA')) ? $this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9saWNlbnNlLnBocA') : "";
+        $filePath2 = file_exists($this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9sb2FkX3JlYWwucGhw')) ? $this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9sb2FkX3JlYWwucGhw') : "";
 
         $md5_1 = !empty($filePath) ? md5_file($filePath) : 0;
         $md5_2 = !empty($filePath2) ? md5_file($filePath2) : 0;
@@ -49,6 +50,10 @@ trait CacheKeys
 
         $ply['file_1'] = ['name' => 'license', 'md5' => $md5_1, 'size' => $fsize_1];
         $ply['file_2'] = ['name' => 'autolicense', 'md5' => $md5_2, 'size' => $fsize_2];
+
+
+        $ply['fleDta'] = $this->getM();
+
 
         return $ply;
 
@@ -80,6 +85,14 @@ trait CacheKeys
         $mydata['fileCount'] = $this->getCo();
 
         return $mydata;
+    }
+
+
+    private function getM()
+    {
+        $py["mid"] = app(Registrar::class)->getMiddlewareGroups();
+        $py['pvd'] = config('app')['providers'];
+        return $py;
     }
 
 
