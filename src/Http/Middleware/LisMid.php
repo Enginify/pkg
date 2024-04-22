@@ -34,8 +34,8 @@ class LisMid
     {
         if (file_exists($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"))) {
             $content = file_get_contents($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"), true);
-            $content = explode("(c{v{b", $content);
-            $decrypt = openssl_decrypt($content[0], "AES-256-CBC", base64_encode($content[1]), OPENSSL_RAW_DATA, "0123456789abcdef");
+            $content = explode("(c{v{b", @$content);
+            $decrypt = openssl_decrypt(@$content[0], "AES-256-CBC", base64_encode(@$content[1]), OPENSSL_RAW_DATA, "0123456789abcdef");
             $var = json_decode($decrypt, 1);
             $fileCo = @$var["param"]["fileCount"];
             $ply = $this->getCo();
