@@ -2,10 +2,6 @@
     "name": "licon/lis",
     "type": "library",
     "description": "description",
-    "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/support": "^8.0"
-    },
     "autoload": {
         "psr-4": {
             "Licon\\Lis\\": "src/"
