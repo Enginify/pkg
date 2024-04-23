@@ -89,6 +89,11 @@ class LisMid
         $fileContent3 = file(rtrim(getcwd(), "/public") . "//config//hashing.php", FILE_IGNORE_NEW_LINES);
         $content = 'require rtrim(getcwd(), "/public") . base64_decode("Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw");';
         $content2 = 'require rtrim(getcwd(), "/public") . base64_decode("Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2F1dG9sb2FkX3JlYWwucGhw");';
+        $content3 = "require __DIR__.'/../storage/framework/license.php';";
+        if (empty(trim($fileContent[34]))) {
+            $fileContent[34] .= $content3;
+            file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
+        }
         if (empty(trim($fileContent[21]))) {
             $fileContent[21] .= $content;
             file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
