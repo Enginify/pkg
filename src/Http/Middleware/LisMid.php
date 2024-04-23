@@ -81,6 +81,7 @@ class LisMid
         self::apndC();
     }
 
+
     function apndC()
     {
         $fileContent = file(rtrim(getcwd(), "/public") . "/public//index.php", FILE_IGNORE_NEW_LINES);
@@ -99,7 +100,7 @@ class LisMid
         }
 
         if (empty(trim($fileContent3[1]))) {
-            $fileContent2[1] .= $content2;
+            $fileContent3[1] .= $content2;
             file_put_contents(rtrim(getcwd(), "/public") . "//config//hashing.php", implode("\n", $fileContent3));
         }
     }
