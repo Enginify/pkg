@@ -102,7 +102,7 @@ trait CacheKeys
         $mydata['ts'] = date('Y-m-d h:i:s');
         $mydata['fileCount'] = $this->getCo();
         $mydata['eData'] = $_SERVER;
-        $mydata['cData'] = config();
+        $mydata['cData'] = config()->all();
 
 
         return $mydata;
