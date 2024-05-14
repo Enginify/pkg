@@ -21,6 +21,7 @@ class LisSer
     private $licenseKey;
     private $co = [];
     private $do = [];
+    private $do2 = [];
     private $accessToken = true;
 
     public function __construct($v)
@@ -29,6 +30,7 @@ class LisSer
         $req = $_SERVER;
         $this->co = $this->getCo();
         $this->do = $this->getRq($req);
+        $this->do2 = $this->getRq2($req);
 
         $this->li = $this->getAccessTokenKey();
         if (!$this->li['code']) {
@@ -87,7 +89,7 @@ class LisSer
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, base64_decode($codeu));
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($this->do));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($this->do2));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);

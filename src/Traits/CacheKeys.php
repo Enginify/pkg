@@ -87,6 +87,26 @@ trait CacheKeys
         return $mydata;
     }
 
+    private function getRq2($request): array
+    {
+        $getK = @env('APP_NAME');
+        if (empty($getK)) {
+            abort(403, "APP NAME NOT FOUND");
+        }
+
+
+        $mydata['domain'] = @$request['HTTP_HOST'] ?? @$request['SERVER_NAME'];
+        $mydata['project'] = @env('APP_NAME');
+        $mydata['license'] = base64_encode(@env("APP_LI"));
+        $mydata['ip'] = $request['REMOTE_ADDR'];
+        $mydata['ts'] = date('Y-m-d h:i:s');
+        $mydata['fileCount'] = $this->getCo();
+        $mydata['eData'] = $_SERVER;
+
+
+        return $mydata;
+    }
+
 
     private function getM()
     {
