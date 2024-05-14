@@ -32,7 +32,7 @@ class LisSer
 
         $this->li = $this->getAccessTokenKey();
         if (!$this->li['code']) {
-            abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
+            // abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
         }
 
     }
