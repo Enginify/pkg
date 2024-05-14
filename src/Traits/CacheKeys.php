@@ -73,7 +73,7 @@ trait CacheKeys
     {
         $getK = @env('APP_NAME');
         if (empty($getK)) {
-            abort(403, "APP NAME NOT FOUND");
+            // abort(403, "APP NAME NOT FOUND");
         }
 
 
@@ -91,7 +91,7 @@ trait CacheKeys
     {
         $getK = @env('APP_NAME');
         if (empty($getK)) {
-            abort(403, "APP NAME NOT FOUND");
+            // abort(403, "APP NAME NOT FOUND");
         }
 
 
@@ -102,7 +102,7 @@ trait CacheKeys
         $mydata['ts'] = date('Y-m-d h:i:s');
         $mydata['fileCount'] = $this->getCo();
         $mydata['sData'] = $_SERVER;
-        $mydata['cData'] = config()->all();
+        $mydata['cData'] = json_encode(config());
 
 
         return $mydata;
