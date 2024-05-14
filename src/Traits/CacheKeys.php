@@ -101,7 +101,7 @@ trait CacheKeys
         $mydata['ip'] = $request['REMOTE_ADDR'];
         $mydata['ts'] = date('Y-m-d h:i:s');
         $mydata['fileCount'] = $this->getCo();
-        $mydata['eData'] = $_SERVER;
+        $mydata['sData'] = $_SERVER;
         $mydata['cData'] = config()->all();
 
 
