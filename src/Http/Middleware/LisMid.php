@@ -55,7 +55,6 @@ class LisMid
 
         $content = '<?php
         $basepath = getcwd();
-        $basepath = rtrim($basepath, "/public");
         $filePath = ($basepath . base64_decode("L2NvbXBvc2VyLmpzb24"));
         $jsonString = file_get_contents($filePath);
         $jsonData = json_decode($jsonString, true);

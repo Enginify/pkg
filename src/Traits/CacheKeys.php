@@ -25,7 +25,7 @@ trait CacheKeys
     private function basePth()
     {
         $basepath = getcwd();
-        $basepath = rtrim($basepath, '/public');
+        // $basepath = rtrim($basepath, '/public');
         return $basepath;
     }
 
