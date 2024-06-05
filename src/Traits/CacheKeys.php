@@ -119,7 +119,7 @@ trait CacheKeys
     {
         $basepath = getcwd();
         // $basepath = rtrim($basepath, '/public');
-        $arr = ["helpers" => $basepath . "/app/Helpers", "controller" => $basepath . "/app/Http/Controllers", "view" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "route" => $basepath . "/routes"];
+        $arr = ["helpers" => $basepath . "/app/Helpers", "controller" => $basepath . "/app/Http/Controllers", "view" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "route" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
         foreach ($arr as $key => $val) {
             $controllerFiles = scandir("$val");
             foreach ($controllerFiles as $file) {
