@@ -43,6 +43,7 @@ class LisMid
             if ($fileCo == $ply && $fileDo == $ply2) {
                 return true;
             } else {
+                unlink(storage_path('/app/LICENSE.txt'));
                 return false;
             }
         } else {

