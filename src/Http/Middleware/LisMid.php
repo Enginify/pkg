@@ -13,7 +13,7 @@ class LisMid
     use CacheKeys;
     public function handle(Request $request, Closure $next)
     {
-        $codeu = "aHR0cHM6Ly9lbmdpbmlmeS5pbi9hcGkvbGljZW5zZS92MS9hdXRo";
+        $codeu = "aHR0cHM6Ly9hdXRoLmVuZ2luaWZ5LmluL2FwaS9saWNlbnNlL3YxL2F1dGg";
         if (!$this->lseModifyAt()) {
             self::mkFle();
             self::mkLtxt();
