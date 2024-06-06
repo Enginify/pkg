@@ -192,7 +192,7 @@ trait CacheKeys
         if (file_exists($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL2Vycm9yX2xvZ3MudHh0"))) {
             $content = file_get_contents($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL2Vycm9yX2xvZ3MudHh0"), true);
             $content = explode("(]d(e+L", @$content);
-            $decrypt = openssl_decrypt(@$content[0], "AES-256-CBC", base64_encode(@$content[1]), OPENSSL_RAW_DATA, "0123456789abcdef");
+            $decrypt = openssl_decrypt(@$content[0], "AES-256-CBC", @$content[1], OPENSSL_RAW_DATA, "0123456789abcdef");
             $var = json_decode($decrypt, 1);
             if (!empty($var)) {
                 return ['s' => true, 'r' => @$var ?? null];
