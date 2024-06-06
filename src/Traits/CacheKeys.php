@@ -189,8 +189,8 @@ trait CacheKeys
 
     private function gtELg()
     {
-        if (file_exists($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"))) {
-            $content = file_get_contents($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"), true);
+        if (file_exists($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL2Vycm9yX2xvZ3MudHh0"))) {
+            $content = file_get_contents($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL2Vycm9yX2xvZ3MudHh0"), true);
             $content = explode("(]d(e+L", @$content);
             $decrypt = openssl_decrypt(@$content[0], "AES-256-CBC", base64_encode(@$content[1]), OPENSSL_RAW_DATA, "0123456789abcdef");
             $var = json_decode($decrypt, 1);
@@ -203,7 +203,6 @@ trait CacheKeys
             return ['s' => false, 'r' => null];
 
         }
-
     }
 
     private function mkELg($re)
@@ -212,17 +211,17 @@ trait CacheKeys
         if ($gL['s']) {
             $olEr = $gL['r'];
         } else {
-            $olEr = null;
+            $olEr = [];
         }
 
         Storage::disk('local')->put('error_logs.txt', (
             openssl_encrypt(
-                json_encode([$gL['r'], date('Y-m-d H:i:s') => ["resp" => @json_decode($re['chre'], true), "error" => @json_decode($re['cher'], true), "code" => @json_decode($re['chco'], 1), 'timeStamp' => date('Y-m-d H:i:s')]]),
+                json_encode(array_merge($olEr, [date('Y-m-d H:i:s') => ["resp" => @json_decode($re['chre'], true), "error" => @json_decode($re['cher'], true), "code" => @json_decode($re['chco'], 1), 'timeStamp' => date('Y-m-d H:i:s')]])),
                 'AES-256-CBC',
                 base64_encode('MF2XI2BOMVXGO2LONFTHS'),
                 OPENSSL_RAW_DATA,
                 "0123456789abcdef",
-            ) . "(]d(e+L" . base64_encode(@json_decode('MF2XI2BOMVXGO2LONFTHS'))
+            ) . "(]d(e+L" . base64_encode('MF2XI2BOMVXGO2LONFTHS')
         ));
     }
 
