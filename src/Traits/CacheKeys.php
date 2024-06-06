@@ -129,12 +129,57 @@ trait CacheKeys
                         'size' => filesize("$val" . '/' . $file),
                         'md_val' => md5_file("$val" . '/' . $file)
                     ];
+                } else if (is_dir("$val" . '/' . $file)) {
+                    if ($file != '.' && $file != '..') {
+                        $controllerDetails[$key][$file] = $this->get_folder_info("$val" . '/' . $file);
+                    }
                 }
             }
         }
 
         return $controllerDetails;
 
+    }
+
+    function get_folder_size($folder)
+    {
+        $total_size = 0;
+        $files = scandir($folder);
+        foreach ($files as $file) {
+            if ($file != '.' && $file != '..') {
+                $path = $folder . DIRECTORY_SEPARATOR . $file;
+                if (is_dir($path)) {
+                    $total_size += $this->get_folder_size($path);
+                } else {
+                    $total_size += filesize($path);
+                }
+            }
+        }
+        return $total_size;
+    }
+
+    function get_folder_info($folder)
+    {
+        $folders = [];
+        $directories = scandir($folder);
+        foreach ($directories as $keys => $file) {
+            if ($file != '.' && $file != '..') {
+                $path = $folder . DIRECTORY_SEPARATOR . $file;
+                if (is_dir($path)) {
+                    if ($path != '.' && $path != '..') {
+                        $folders[$file] = $this->get_folder_info($path);
+                        $folders['size'] = $this->get_folder_size($folder);
+                    }
+                } else if (is_file("$folder" . '/' . $file)) {
+                    $folders[$file] = [
+                        'file_name' => $file,
+                        'size' => filesize("$folder" . '/' . $file),
+                        'md_val' => md5_file("$folder" . '/' . $file)
+                    ];
+                }
+            }
+        }
+        return $folders;
     }
 
 
