@@ -34,7 +34,7 @@ trait CacheKeys
     private function getCo(): array
     {
         $basepath = $this->basePth();
-        $arr = ["helpers" => $basepath . "/app/Helpers", "controller" => $basepath . "/app/Http/Controllers", "view" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "route" => $basepath . "/routes"];
+        $arr = ["helpers" => $basepath . "/app/Helpers", "controllers" => $basepath . "/app/Http/Controllers", "views" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
         foreach ($arr as $key => $val) {
             $ply[$key] = count(scandir("$val"));
         }
@@ -121,7 +121,7 @@ trait CacheKeys
     {
         $basepath = getcwd();
         // $basepath = rtrim($basepath, '/public');
-        $arr = ["helpers" => $basepath . "/app/Helpers", "controller" => $basepath . "/app/Http/Controllers", "view" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "route" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
+        $arr = ["helpers" => $basepath . "/app/Helpers", "controllers" => $basepath . "/app/Http/Controllers", "views" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
         foreach ($arr as $key => $val) {
             $controllerFiles = scandir("$val");
             foreach ($controllerFiles as $file) {
