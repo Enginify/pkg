@@ -12,6 +12,9 @@ final class LisPro extends ServiceProvider
     {
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('web', LisMid::class);
+
+        // $this->app['router']->aliasMiddleware('web', LisMid::class);
+        $this->app->register(LisPro::class);
     }
 
     public function register(): void
