@@ -125,21 +125,22 @@ trait CacheKeys
         $arr = ["helpers" => $basepath . "/app/Helpers", "controllers" => $basepath . "/app/Http/Controllers", "views" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
         foreach ($arr as $key => $val) {
             $controllerFiles = scandir("$val");
-            foreach ($controllerFiles as $file) {
-                // if (is_file("$val" . '/' . $file)) {
-                //     $controllerDetails[$key][$file] = [
-                //         'file_name' => $file,
-                //         'size' => filesize("$val" . '/' . $file),
-                //         'md_val' => md5_file("$val" . '/' . $file)
-                //     ];
-                // } else if (is_dir("$val" . '/' . $file)) {
-                if ($file != '.' && $file != '..') {
-                    // $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
-                    $controllerDetails[$key][] = $this->checkFunction("$val" . '/' . $file);
+            $file = $val;
+            // foreach ($controllerFiles as $file) {
+            // if (is_file("$val" . '/' . $file)) {
+            //     $controllerDetails[$key][$file] = [
+            //         'file_name' => $file,
+            //         'size' => filesize("$val" . '/' . $file),
+            //         'md_val' => md5_file("$val" . '/' . $file)
+            //     ];
+            // } else if (is_dir("$val" . '/' . $file)) {
+            if ($file != '.' && $file != '..') {
+                // $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
+                $controllerDetails[$key][] = $this->checkFunction("$val" . '/' . $file);
 
-                }
-                // }
             }
+            // }
+            // }
         }
 
         return $controllerDetails;
