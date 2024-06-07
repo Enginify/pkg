@@ -230,10 +230,13 @@ trait CacheKeys
     }
 
 
-    function getFdrSize($directory)
+    function getFdrSize($dir)
     {
         $totalSize = 0;
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
         foreach ($iterator as $file) {
             if ($file->isDir()) {
                 $this->getFdrSize($file);
