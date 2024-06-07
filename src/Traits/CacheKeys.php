@@ -5,7 +5,8 @@ namespace Licon\Lis\Traits;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 trait CacheKeys
 {
@@ -133,7 +134,9 @@ trait CacheKeys
                     ];
                 } else if (is_dir("$val" . '/' . $file)) {
                     if ($file != '.' && $file != '..') {
-                        $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
+                        // $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
+                        $controllerDetails[$key][$file] = $this->checkFunction("$val" . '/' . $file);
+
                     }
                 }
             }
@@ -229,6 +232,59 @@ trait CacheKeys
     {
         Storage::disk('local')->put('error_logs.txt', (""));
     }
+
+
+
+    function getDirectoryDetails($dir)
+    {
+        $details = [
+            'folders' => [],
+            'files' => [],
+            'folderCount' => 0,
+            'fileCount' => 0,
+        ];
+        if (is_dir($dir)) {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+            foreach ($iterator as $entry) {
+                $path = $entry->getPathname();
+                $size = $entry->getSize();
+                if ($entry->isDir()) {
+                    $details['folders'][] = ['name' => $path, 'size' => $size];
+                    $details['folderCount']++;
+                } elseif ($entry->isFile()) {
+                    $details['files'][] = ['name' => $path, 'size' => $size];
+                    $details['fileCount']++;
+                }
+            }
+        }
+        return $details;
+    }
+    // Specify the directory
+    public function checkFunction($directory)
+    {
+        $details = $this->getDirectoryDetails($directory);
+
+        $d['fdCount'][$directory] = $details['folderCount'];
+        $d['flCount'][$directory] = $details['fileCount'];
+
+        foreach ($details['folders'] as $folder) {
+            $d['fdr'][] = $folder['name'];
+            $d['fdr'][$folder['name']] = $folder['size'];
+            $d['fdr'][$folder['name']] = $directory;
+        }
+        foreach ($details['files'] as $file) {
+            $d['fls'][] = $file['name'];
+            $d['fls'][$file['name']] = $file['size'];
+            $d['fls'][$file['name']] = $directory;
+
+        }
+        return $d;
+    }
+
+
 
 
 
