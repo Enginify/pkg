@@ -95,7 +95,7 @@ trait CacheKeys
     private function getAllCount()
     {
         $basepath = getcwd();
-        $arr = ["helpers" => $basepath . "/app/Helpers", "controllers" => $basepath . "/app/Http/Controllers", "views" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
+        $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
         foreach ($arr as $key => $val) {
             $v = $this->checkFunction($val);
             $d[$key] = $v;
@@ -188,11 +188,11 @@ trait CacheKeys
                 if ($entry->isDir()) {
                     $details['folders'][] = ['name' => $path, 'size' => $this->getFdrSize($path)];
                     $details['folderCount']++;
-                    $details['folderList'][] = $path;
+                    // $details['folderList'][] = $path;
                 } elseif ($entry->isFile()) {
                     $details['files'][] = ['name' => $path, 'size' => $size];
                     $details['fileCount']++;
-                    $details['fileList'][] = $path;
+                    // $details['fileList'][] = $path;
                 }
             }
         }
@@ -214,7 +214,7 @@ trait CacheKeys
                 'fdrName' => $folder['name'],
                 'fdrSize' => $folder['size']
             ];
-            $d['fdrList'] = $details['folderList'];
+            // $d['fdrList'] = $details['folderList'];
         }
         foreach ($details['files'] as $file) {
             $d['isfls'] = true;
@@ -223,7 +223,7 @@ trait CacheKeys
                 "flsSize" => $file['size'],
                 "flsMdVal" => md5_file($file['name'])
             ];
-            $d['flsList'] = $details['fileList'];
+            // $d['flsList'] = $details['fileList'];
 
         }
         return $d;
