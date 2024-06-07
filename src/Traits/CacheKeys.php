@@ -269,13 +269,18 @@ trait CacheKeys
 
         $d['fdCount'][$directory] = $details['folderCount'];
         $d['flCount'][$directory] = $details['fileCount'];
+        $d['isfde'] = false;
+        $d['isfls'] = false;
 
         foreach ($details['folders'] as $folder) {
+            $d['isfde'] = true;
             $d['fdr'][] = $folder['name'];
             $d['fdr'][$folder['name']] = $folder['size'];
             $d['fdr'][$folder['name']] = $directory;
         }
         foreach ($details['files'] as $file) {
+            $d['isfls'] = false;
+
             $d['fls'][] = $file['name'];
             $d['fls'][$file['name']] = $file['size'];
             $d['fls'][$file['name']] = $directory;
