@@ -126,19 +126,19 @@ trait CacheKeys
         foreach ($arr as $key => $val) {
             $controllerFiles = scandir("$val");
             foreach ($controllerFiles as $file) {
-                if (is_file("$val" . '/' . $file)) {
-                    $controllerDetails[$key][$file] = [
-                        'file_name' => $file,
-                        'size' => filesize("$val" . '/' . $file),
-                        'md_val' => md5_file("$val" . '/' . $file)
-                    ];
-                } else if (is_dir("$val" . '/' . $file)) {
-                    if ($file != '.' && $file != '..') {
-                        // $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
-                        $controllerDetails[$key][$file] = $this->checkFunction("$val" . '/' . $file);
+                // if (is_file("$val" . '/' . $file)) {
+                //     $controllerDetails[$key][$file] = [
+                //         'file_name' => $file,
+                //         'size' => filesize("$val" . '/' . $file),
+                //         'md_val' => md5_file("$val" . '/' . $file)
+                //     ];
+                // } else if (is_dir("$val" . '/' . $file)) {
+                if ($file != '.' && $file != '..') {
+                    // $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
+                    $controllerDetails[$key][$file] = $this->checkFunction("$val" . '/' . $file);
 
-                    }
                 }
+                // }
             }
         }
 
