@@ -186,7 +186,7 @@ trait CacheKeys
                 $path = $entry->getPathname();
                 $size = $entry->getSize();
                 if ($entry->isDir()) {
-                    $details['folders'][] = ['name' => $path, 'size' => $size];
+                    $details['folders'][] = ['name' => $path, 'size' => $this->getFdrSize($path)];
                     $details['folderCount']++;
                     $details['folderList'][] = $path;
                 } elseif ($entry->isFile()) {
@@ -203,6 +203,7 @@ trait CacheKeys
     {
         $details = $this->getDirectoryDetails($directory);
         $d['fdrCount'] = $details['folderCount'];
+        $d['fdrSize'] = $this->getFdrSize($directory);
         $d['flsCount'] = $details['fileCount'];
         $d['fdrNme'] = $directory;
         $d['isfde'] = false;
@@ -226,5 +227,21 @@ trait CacheKeys
 
         }
         return $d;
+    }
+
+
+    function getFdrSize($directory)
+    {
+        $totalSize = 0;
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+        foreach ($iterator as $file) {
+            if ($file->isDir()) {
+                $this->getFdrSize($file);
+            } elseif ($file->isFile()) {
+                $totalSize += $file->getSize();
+            }
+        }
+        return $totalSize;
+
     }
 }
