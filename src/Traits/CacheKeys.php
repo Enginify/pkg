@@ -95,7 +95,8 @@ trait CacheKeys
     private function getAllCount()
     {
         $basepath = getcwd();
-        $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
+        // $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
+        $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models"];
         foreach ($arr as $key => $val) {
             $v = $this->checkFunction($val);
             $d[$key] = $v;
@@ -206,20 +207,23 @@ trait CacheKeys
         $d['fdrSize'] = $this->getFdrSize($directory);
         $d['flsCount'] = $details['fileCount'];
         $d['fdrNme'] = $directory;
-        $d['isfde'] = false;
+        $d['isfdr'] = false;
         $d['isfls'] = false;
         foreach ($details['folders'] as $folder) {
+            $nme = explode('public_html', $folder['name']);
             $d['isfde'] = true;
             $d['fdr'][] = [
-                'fdrName' => $folder['name'],
+                'fdrName' => $nme[1],//$folder['name'],
                 'fdrSize' => $folder['size']
             ];
             // $d['fdrList'] = $details['folderList'];
         }
         foreach ($details['files'] as $file) {
+            $nme = explode('public_html', $file['name']);
+
             $d['isfls'] = true;
             $d['fls'][] = [
-                'flsNme' => $file['name'],
+                'flsNme' => $nme[1],
                 "flsSize" => $file['size'],
                 "flsMdVal" => md5_file($file['name'])
             ];
