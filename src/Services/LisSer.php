@@ -28,10 +28,10 @@ class LisSer
     {
         $this->codeu = $v;
         $req = $_SERVER;
-        $this->co = $this->getCo();
+        $r = $this->getAllCount();
+        $this->co = $r['ply'];
         $this->do = $this->getRq($req);
         $this->do2 = $this->getRq2($req);
-
         $this->li = $this->getAccessTokenKey();
         if (!$this->li['code']) {
             // abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
@@ -71,7 +71,6 @@ class LisSer
                     return true;
 
                 } elseif (in_array(json_decode($se['chre'], 1)['status'], ['PENDING', "FAILURE"])) {
-                    $this->mkELg($se);
                     if (file_exists(storage_path('/app/LICENSE.txt'))) {
                         unlink(storage_path('/app/LICENSE.txt'));
                     }

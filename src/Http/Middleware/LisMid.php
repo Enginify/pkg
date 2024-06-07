@@ -31,6 +31,7 @@ class LisMid
 
     public function checkLicenseExists()
     {
+
         if (file_exists($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"))) {
             $content = file_get_contents($this->basePth() . base64_decode("Ly9zdG9yYWdlLy9hcHAvL0xJQ0VOU0UudHh0"), true);
             $content = explode("(c{v{b", @$content);
@@ -38,8 +39,9 @@ class LisMid
             $var = json_decode($decrypt, 1);
             $fileCo = @$var["param"]["fileCount"];
             $fileDo = @$var["param"]["fileAllData"];
-            $ply = $this->getCo();
-            $ply2 = $this->getAllCount();
+            $v = $this->getAllCount();
+            $ply = $v['ply'];
+            $ply2 = $v['d'];
             if ($fileCo == $ply && $fileDo == $ply2) {
                 return true;
             } else {
