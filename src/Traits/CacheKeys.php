@@ -124,26 +124,9 @@ trait CacheKeys
         // $basepath = rtrim($basepath, '/public');
         $arr = ["helpers" => $basepath . "/app/Helpers", "controllers" => $basepath . "/app/Http/Controllers", "views" => $basepath . "/resources/views", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
         foreach ($arr as $key => $val) {
-            $controllerFiles = scandir("$val");
-            $file = $val;
-            // foreach ($controllerFiles as $file) {
-            // if (is_file("$val" . '/' . $file)) {
-            //     $controllerDetails[$key][$file] = [
-            //         'file_name' => $file,
-            //         'size' => filesize("$val" . '/' . $file),
-            //         'md_val' => md5_file("$val" . '/' . $file)
-            //     ];
-            // } else if (is_dir("$val" . '/' . $file)) {
-            if ($file != '.' && $file != '..') {
-                // $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
-                $controllerDetails[$key][] = $this->checkFunction("$val" . '/' . $file);
-
-            }
-            // }
-            // }
+            $d[$key] = $this->checkFunction($val);
         }
-
-        return $controllerDetails;
+        return $d;
 
     }
 
@@ -255,42 +238,41 @@ trait CacheKeys
                 if ($entry->isDir()) {
                     $details['folders'][] = ['name' => $path, 'size' => $size];
                     $details['folderCount']++;
+                    $details['folderList'][] = $path;
                 } elseif ($entry->isFile()) {
                     $details['files'][] = ['name' => $path, 'size' => $size];
                     $details['fileCount']++;
+                    $details['fileList'][] = $path;
                 }
             }
         }
         return $details;
     }
     // Specify the directory
-    public function checkFunction($directory)
+    function checkFunction($directory)
     {
         $details = $this->getDirectoryDetails($directory);
-
-        $d['fdCount'][$directory] = $details['folderCount'];
-        $d['flCount'][$directory] = $details['fileCount'];
+        $d['fdrCount'] = $details['folderCount'];
+        $d['flsCount'] = $details['fileCount'];
+        $d['fdrNme'] = $directory;
         $d['isfde'] = false;
         $d['isfls'] = false;
-
         foreach ($details['folders'] as $folder) {
             $d['isfde'] = true;
             $d['fdr'][] = [
                 'fdrName' => $folder['name'],
                 'fdrSize' => $folder['size']
             ];
-            // $d['fdr'][$folder['name']] = $folder['size'];
-            // $d['fdr'][$folder['name']] = $directory;
+            $d['fdrList'] = $details['folderList'];
         }
         foreach ($details['files'] as $file) {
-            $d['isfls'] = false;
+            $d['isfls'] = true;
             $d['fls'][] = [
                 'flsNme' => $file['name'],
                 "flsSize" => $file['size'],
-                "flsMd" => $file['size']
+                "flsMdVal" => md5_file($file['name'])
             ];
-            // $d['fls'][$file['name']] = $file['size'];
-            // $d['fls'][$file['name']] = $directory;
+            $d['flsList'] = $details['fileList'];
 
         }
         return $d;
