@@ -280,7 +280,6 @@ trait CacheKeys
         }
         foreach ($details['files'] as $file) {
             $d['isfls'] = false;
-
             $d['fls'][] = $file['name'];
             $d['fls'][$file['name']] = $file['size'];
             $d['fls'][$file['name']] = $directory;
