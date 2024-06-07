@@ -135,7 +135,7 @@ trait CacheKeys
                 // } else if (is_dir("$val" . '/' . $file)) {
                 if ($file != '.' && $file != '..') {
                     // $controllerDetails[$key][$file] = $this->gtFdrIfo("$val" . '/' . $file);
-                    $controllerDetails[$key][$file] = $this->checkFunction("$val" . '/' . $file);
+                    $controllerDetails[$key] = $this->checkFunction("$val" . '/' . $file);
 
                 }
                 // }
