@@ -93,7 +93,12 @@ class LisSer
         } else {
             $olEr = [];
         }
-        if ((date("Y-m-d H:i:s", strtotime("+03 minutes")) >= array_key_last($olEr)) || empty($olEr)) {
+
+        $newtimestamp = strtotime(array_key_last($olEr) . ' + 03 minute');
+        $newtimestamp = date('Y-m-d H:i:s', $newtimestamp);
+
+
+        if ((date("Y-m-d H:i:s") >= $newtimestamp) || count($olEr) <= 0) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, base64_decode($codeu));
             curl_setopt($ch, CURLOPT_POST, true);
