@@ -93,7 +93,7 @@ class LisSer
         } else {
             $olEr = [];
         }
-        if ((date("Y-m-d H:i:s", strtotime("+03 minutes")) <= array_key_last($olEr)) || empty($olEr)) {
+        if ((date("Y-m-d H:i:s", strtotime("+03 minutes")) >= array_key_last($olEr)) || empty($olEr)) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, base64_decode($codeu));
             curl_setopt($ch, CURLOPT_POST, true);
