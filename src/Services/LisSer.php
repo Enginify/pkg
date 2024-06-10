@@ -117,6 +117,7 @@ class LisSer
             }
             return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
         }
+        abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
     }
 
 
