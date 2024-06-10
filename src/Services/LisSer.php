@@ -93,25 +93,33 @@ class LisSer
         } else {
             $olEr = [];
         }
-        if ((date("Y-m-d H:i:s", strtotime("+10 minutes")) <= array_key_last($olEr)) || empty($olEr)) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, base64_decode($codeu));
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["requestKey" => base64_encode(json_encode($this->do2))]));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYSTATUS, false);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-            curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-            $chre = curl_exec($ch);
-            $cher = curl_error($ch);
-            $chco = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            $this->mkELg(['chre' => $chre, "cher" => $cher, 'chco' => $chco]);
-            return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
+        // if ((date("Y-m-d H:i:s", strtotime("+10 minutes")) <= array_key_last($olEr)) || empty($olEr)) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, base64_decode($codeu));
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["requestKey" => base64_encode(json_encode($this->do2))]));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYSTATUS, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        $chre = curl_exec($ch);
+        $cher = curl_error($ch);
+        $chco = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $this->mkELg(['chre' => $chre, "cher" => $cher, 'chco' => $chco]);
+
+        if (json_decode($chre, true)['code'] == "0x0207") {
+            print_r(json_decode($chre, true)['data']['content']);
+            exit;
+
         }
+
+
+        return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
+        // }
     }
 
 
