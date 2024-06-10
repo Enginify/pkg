@@ -116,8 +116,6 @@ class LisSer
             exit;
 
         }
-
-
         return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
         // }
     }
