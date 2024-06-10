@@ -95,8 +95,8 @@ trait CacheKeys
     private function getAllCount()
     {
         $basepath = getcwd();
-        // $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
-        $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models"];
+        $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models", "routes" => $basepath . "/routes", "providers" => $basepath . "/app/Providers"];
+        // $arr = ["controllers" => $basepath . "/app/Http/Controllers", "models" => $basepath . "/app/Models"];
         foreach ($arr as $key => $val) {
             $v = $this->checkFunction($val);
             $d[$key] = $v;
