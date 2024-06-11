@@ -94,7 +94,9 @@ class LisSer
             $olEr = [];
         }
 
-        $newtimestamp = strtotime(array_key_last($olEr) . ' + ' . $olEr[array_key_last($olEr)]['resp']['data']['reqTime'] ?? 03 . ' minute');
+        $dt = (isset($olEr[array_key_last($olEr)]['resp']['data']['reqTime']) && !empty($olEr[array_key_last($olEr)]['resp']['data']['reqTime'])) ? $olEr[array_key_last($olEr)]['resp']['data']['reqTime'] : date('Y-m-d H:i:s');
+
+        $newtimestamp = strtotime(array_key_last($olEr) ?? date('Y-m-d H:i:s') . ' + ' . $dt ?? 03 . ' minute');
         $newtimestamp = date('Y-m-d H:i:s', $newtimestamp);
 
 
@@ -122,7 +124,10 @@ class LisSer
             }
             return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
         }
-        print_r($olEr[array_key_last($olEr)]['resp']['data']['content']);
+
+        isset($olEr[array_key_last($olEr)]['resp']['data']['content']) ? $olEr[array_key_last($olEr)]['resp']['data']['content'] : abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
+
+        // print_r($olEr[array_key_last($olEr)]['resp']['data']['content']);
         exit;
         // abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
     }
