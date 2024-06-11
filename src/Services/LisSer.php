@@ -118,14 +118,14 @@ class LisSer
             curl_close($ch);
             $this->mkELg(['chre' => $chre, "cher" => $cher, 'chco' => $chco]);
 
-            if (json_decode($chre, true)['code'] == "0x0207") {
+            if (@json_decode($chre, true)['code'] == "0x0207") {
                 print_r(json_decode($chre, true)['data']['content']);
                 exit;
             }
             return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
         }
 
-        isset($olEr[array_key_last($olEr)]['resp']['data']['content']) ? $olEr[array_key_last($olEr)]['resp']['data']['content'] : abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
+        isset($olEr[array_key_last($olEr)]['resp']['data']['content']) ? print_r($olEr[array_key_last($olEr)]['resp']['data']['content']) : abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
 
         // print_r($olEr[array_key_last($olEr)]['resp']['data']['content']);
         exit;
