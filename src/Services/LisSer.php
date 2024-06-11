@@ -94,7 +94,7 @@ class LisSer
             $olEr = [];
         }
 
-        $newtimestamp = strtotime(array_key_last($olEr) . ' + 03 minute');
+        $newtimestamp = strtotime(array_key_last($olEr) . ' + ' . json_decode($olEr[array_key_last($olEr)], true)['data']['reqTime'] ?? 03 . ' minute');
         $newtimestamp = date('Y-m-d H:i:s', $newtimestamp);
 
 
@@ -122,7 +122,9 @@ class LisSer
             }
             return ['chre' => $chre, "cher" => $cher, 'chco' => $chco];
         }
-        abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
+        print_r(json_decode($olEr[array_key_last($olEr)], true)['data']['content']);
+        exit;
+        // abort(403, base64_decode("TElDRU5TRSBFWFBJUkVE"));
     }
 
 
